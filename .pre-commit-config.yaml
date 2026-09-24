@@ -1,0 +1,55 @@
+fail_fast: false
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: fix-byte-order-marker
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-yaml
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+      - id: debug-statements
+
+  - repo: local
+    hooks:
+      - id: ruff-format
+        name: ruff format
+        description: Format Python sources with ruff.
+        entry: uv run ruff format
+        language: system
+        types_or: [python, pyi]
+
+      - id: ruff-check
+        name: ruff check
+        description: Lint Python sources with ruff.
+        entry: uv run ruff check --force-exclude
+        language: system
+        types_or: [python, pyi]
+        args: [--fix]
+
+      - id: mypy
+        name: mypy
+        description: Type-check the package in strict mode.
+        entry: uv run mypy ezcapsolver examples
+        language: system
+        files: ^(ezcapsolver|examples)/.*\.py$
+        pass_filenames: false
+
+      - id: typos
+        name: typos
+        description: Check spelling in sources and documentation.
+        entry: uvx typos
+        language: system
+        pass_filenames: false
+
+      - id: pytest
+        name: pytest
+        description: Run the test suite.
+        entry: uv run pytest -q
+        language: system
+        files: ^(ezcapsolver|tests)/.*\.py$
+        pass_filenames: false

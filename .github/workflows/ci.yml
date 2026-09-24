@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint & Types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --all-groups
+      - name: ruff format
+        run: uv run ruff format --check .
+      - name: ruff check
+        run: uv run ruff check .
+      - name: mypy
+        run: uv run mypy ezcapsolver examples
+
+  test:
+    name: Test (${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --all-groups --python ${{ matrix.python-version }}
+      - name: pytest
+        run: uv run --python ${{ matrix.python-version }} pytest -q --cov --cov-report=term
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: build sdist and wheel
+        run: uv build
+      - name: check metadata
+        run: uvx twine check dist/*
+      # The distribution is `ezcapsolver-py` while the import name is `ezcapsolver`.
+      # Verify the built artifact actually installs and reports its version,
+      # rather than silently falling back to the dev placeholder.
+      - name: smoke test the wheel
+        run: |
+          uv venv /tmp/smoke
+          VIRTUAL_ENV=/tmp/smoke uv pip install dist/*.whl
+          VIRTUAL_ENV=/tmp/smoke uv run --no-project python -c "
+          import ezcapsolver
+          assert ezcapsolver.__version__ != '0.0.0-dev', ezcapsolver.__version__
+          print(ezcapsolver.__version__)
+          "
+
+  typos:
+    name: Typos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: crate-ci/typos@v1.50.1
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --all-groups
+      # Audits the resolved environment, dev dependencies included. `pip-audit -r`
+      # would need to build a throwaway venv with ensurepip, which is brittle on
+      # uv-managed interpreters.
+      - name: pip-audit
+        run: uv run --with pip-audit pip-audit

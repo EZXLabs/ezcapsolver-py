@@ -1,0 +1,107 @@
+name: Release
+
+# When pushing a v* tag:
+#   1. Generate a changelog and create a GitHub Release
+#   2. Build the sdist and wheel, and verify the installed distribution
+#   3. Publish to PyPI (skipped for pre-release versions)
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  changelog:
+    name: Changelog
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog
+        uses: orhun/git-cliff-action@v4
+        with:
+          # cliff.toml uses the `commit_groups` filter, added in 2.14.1. Pinning
+          # keeps a template render error from surfacing only at release time.
+          version: "2.14.1"
+          config: cliff.toml
+          # Prerelease tags (containing '-', such as v1.0.0-rc.1) are not yet in
+          # cliff's tag sequence; generate them with --unreleased.
+          args: ${{ contains(github.ref_name, '-') && format('--unreleased --tag {0}', github.ref_name) || '--latest' }} --strip header
+        env:
+          OUTPUT: CHANGES.md
+          GITHUB_REPO: ${{ github.repository }}
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: CHANGES.md
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # SemVer pre-releases (containing "-") are marked as such automatically.
+          prerelease: ${{ contains(github.ref_name, '-') }}
+
+  build:
+    name: Build and verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+
+      # Abort when the tag does not match the project version, so a release can
+      # never ship a version inconsistent with its tag.
+      - name: Verify tag matches project version
+        run: |
+          version=$(uv version --short)
+          if [ "v$version" != "${{ github.ref_name }}" ]; then
+            echo "::error::tag ${{ github.ref_name }} does not match pyproject.toml version $version"
+            exit 1
+          fi
+
+      - name: Build
+        run: uv build
+
+      - name: Check distribution metadata
+        run: uvx twine check dist/*
+
+      # The distribution is `ezcapsolver-py` while the import name stays
+      # `ezcapsolver`. If importlib.metadata cannot find the distribution,
+      # __version__ silently falls back to the dev placeholder — assert rather
+      # than print, so a packaging mistake can never ship unnoticed.
+      - name: Verify the wheel installs, imports and reports its version
+        run: |
+          uv venv /tmp/smoke
+          VIRTUAL_ENV=/tmp/smoke uv pip install dist/*.whl
+          VIRTUAL_ENV=/tmp/smoke uv run --no-project python -c "
+          import ezcapsolver
+          assert ezcapsolver.__version__ == '${{ github.ref_name }}'.lstrip('v'), ezcapsolver.__version__
+          print(ezcapsolver.__version__)
+          "
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  # Publishing uses PyPI trusted publishing; configure the publisher for
+  # `ezcapsolver-py` at https://pypi.org/manage/account/publishing/ with this
+  # repository and the `pypi` environment.
+  publish:
+    name: Publish to PyPI
+    needs: [changelog, build]
+    if: ${{ !contains(github.ref_name, '-') }}
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
