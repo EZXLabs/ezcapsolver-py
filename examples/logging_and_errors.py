@@ -36,7 +36,7 @@ logging.getLogger("ezcapsolver").setLevel(logging.DEBUG)
 
 
 async def main() -> None:
-    async with AsyncEzCapSolverClient() as client:
+    async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
         try:
             solved = await client.solve(
                 ReCaptchaV2Task(

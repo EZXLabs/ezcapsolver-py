@@ -5,15 +5,14 @@ Every constructor setting is spelled out below. All of them have defaults, so
 """
 
 import asyncio
-import os
 
 from ezcapsolver import AsyncEzCapSolverClient, PollingConfig, ReCaptchaV2Task
 
 
 async def main() -> None:
     client = AsyncEzCapSolverClient(
-        # Omit this entirely to read EZCAPTCHA_API_KEY from the environment.
-        os.environ["EZCAPTCHA_API_KEY"],
+        # Omit this entirely to read EZCAPSOLVER_API_KEY from the environment.
+        "YOUR_API_KEY",
         # Timeout for the asynchronous endpoints and balance queries.
         timeout=30.0,
         # Separate budget for synchronous-endpoint tasks, which block until the

@@ -24,7 +24,7 @@ FIXTURES = Path(__file__).parent.parent / "fixtures"
 async def main() -> None:
     image = base64.b64encode((FIXTURES / "crosswalks1x1.jpg").read_bytes()).decode()
 
-    async with AsyncEzCapSolverClient() as client:
+    async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
         solved = await client.sync_solve(
             HCaptchaClassificationTask(
                 # A grid module would send `images` and `anchors` instead.

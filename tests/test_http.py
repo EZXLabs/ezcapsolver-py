@@ -207,11 +207,11 @@ class TestConfig:
             ClientConfig(client_key="   ").resolve_client_key()
 
     def test_a_missing_client_key_names_the_environment_variable(self):
-        with pytest.raises(EzCaptchaError, match="EZCAPTCHA_API_KEY"):
+        with pytest.raises(EzCaptchaError, match="EZCAPSOLVER_API_KEY"):
             ClientConfig().resolve_client_key()
 
     def test_the_key_is_read_from_the_environment(self, monkeypatch):
-        monkeypatch.setenv("EZCAPTCHA_API_KEY", "from-env")
+        monkeypatch.setenv("EZCAPSOLVER_API_KEY", "from-env")
         assert ClientConfig().resolve_client_key() == "from-env"
 
     def test_repr_never_leaks_the_key(self):

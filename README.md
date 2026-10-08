@@ -109,12 +109,12 @@ Requires Python 3.12+. The only runtime dependency is [`httpx`](https://www.pyth
 
 ## 🚀 Quick Start
 
-The client reads `EZCAPTCHA_API_KEY` from the environment when no key is passed explicitly.
+Replace `YOUR_API_KEY` with your client key. When no key is passed explicitly, the client reads `EZCAPSOLVER_API_KEY` from the environment.
 
 ```python
 from ezcapsolver import EzCapSolverClient
 
-with EzCapSolverClient() as client:
+with EzCapSolverClient("YOUR_API_KEY") as client:
     solved = client.solve_recaptcha_v2_task_proxyless(
         "https://example.com",
         "6Lc_your_site_key",
@@ -129,7 +129,7 @@ The async client has exactly the same method names; add `await`:
 ```python
 from ezcapsolver import AsyncEzCapSolverClient
 
-async with AsyncEzCapSolverClient() as client:
+async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
     solved = await client.solve_recaptcha_v2_task_proxyless(
         "https://example.com",
         "6Lc_your_site_key",
@@ -723,7 +723,7 @@ if result.is_ready:
 from ezcapsolver import EzCapSolverClient, PollingConfig
 
 client = EzCapSolverClient(
-    "your-client-key",
+    "YOUR_API_KEY",
     timeout=30.0,
     sync_timeout=240.0,
     polling=PollingConfig(interval=3.0, max_attempts=50),
@@ -846,7 +846,7 @@ logging.getLogger("ezcapsolver").setLevel(logging.DEBUG)
 A client's state is read-only after construction and the underlying `httpx` pool is shareable, so **one instance serves a whole process**. Creating a client per task only wastes connections.
 
 ```python
-async with AsyncEzCapSolverClient() as client:
+async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
     results = await asyncio.gather(
         *(client.solve_recaptcha_v2_task_proxyless(u, k) for u, k in sites),
         return_exceptions=True,
@@ -857,11 +857,9 @@ The blocking client is equally safe to share across threads.
 
 ## 🧪 Runnable Examples
 
-[`examples/`](https://github.com/EZXLabs/ezcapsolver-py/tree/main/examples) holds one runnable file per task type, named after the wire task type, plus five about the SDK itself. The full list is in the [example index](https://github.com/EZXLabs/ezcapsolver-py/blob/main/examples/README.md).
+[`examples/`](https://github.com/EZXLabs/ezcapsolver-py/tree/main/examples) holds one runnable file per task type, named after the wire task type, plus five about the SDK itself. The full list is in the [example index](https://github.com/EZXLabs/ezcapsolver-py/blob/main/examples/README.md). Replace the `YOUR_API_KEY` placeholder in the examples with your client key, then:
 
 ```bash
-export EZCAPTCHA_API_KEY=your-client-key
-
 # These two use the vendors' own demo pages and run as they are.
 python examples/recaptcha_v2/recaptcha_v2_task_proxyless.py
 python examples/hcaptcha/hcaptcha.py

@@ -10,13 +10,12 @@
 ## 运行方式
 
 ```bash
-export EZCAPTCHA_API_KEY=your-client-key
 export EZCAPTCHA_PROXY=http://user:pass@host:port   # 仅标注需要的示例
 
 python examples/recaptcha_v2/recaptcha_v2_task_proxyless.py
 ```
 
-所有示例构造客户端时都不传 key，由它自己从 `EZCAPTCHA_API_KEY` 读取。
+所有示例都使用占位密钥 `YOUR_API_KEY`，运行前替换成你自己的密钥。
 
 有几个可以直接跑通——`recaptcha_v2_task_proxyless.py`、`hcaptcha.py` 以及两个
 `*_client_task.py` 用的是厂商自己的 demo 页面。其余的站点 key 和页面数据是占位值，

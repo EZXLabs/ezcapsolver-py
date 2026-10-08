@@ -3,7 +3,7 @@
 Task type: ``HCaptcha``
 
 The site below is hCaptcha's own demo page, so this example runs as written
-once ``EZCAPTCHA_API_KEY`` is set.
+once ``YOUR_API_KEY`` is replaced with your key.
 
 ``invisible`` and ``rqdata`` have no typed field on the service side, so they
 travel through ``extra`` — the pass-through map every task model carries.
@@ -18,7 +18,7 @@ from ezcapsolver import AsyncEzCapSolverClient, HCaptchaTask
 
 
 async def main() -> None:
-    async with AsyncEzCapSolverClient() as client:
+    async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
         solved = await client.solve(
             HCaptchaTask(
                 website_url="https://accounts.hcaptcha.com/demo",

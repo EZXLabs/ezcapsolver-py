@@ -23,7 +23,7 @@ DEFAULT_ASYNC_BASE_URL = "https://api.ez-captcha.com"
 DEFAULT_SYNC_BASE_URL = "https://sync.ez-captcha.com"
 
 #: Environment variable read when no client key is passed explicitly.
-DEFAULT_CLIENT_KEY_ENV = "EZCAPTCHA_API_KEY"
+DEFAULT_CLIENT_KEY_ENV = "EZCAPSOLVER_API_KEY"
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)

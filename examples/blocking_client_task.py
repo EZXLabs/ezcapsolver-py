@@ -9,15 +9,13 @@ to ``solve()``, this one calls the per-type shortcut, which takes the fields
 directly. Both entry points exist on both clients.
 """
 
-import os
-
 from ezcapsolver import EzCapSolverClient, PollingConfig
 
 
 def main() -> None:
     client = EzCapSolverClient(
-        # Omit this entirely to read EZCAPTCHA_API_KEY from the environment.
-        os.environ["EZCAPTCHA_API_KEY"],
+        # Omit this entirely to read EZCAPSOLVER_API_KEY from the environment.
+        "YOUR_API_KEY",
         # Timeout for the asynchronous endpoints and balance queries.
         timeout=30.0,
         # Separate budget for synchronous-endpoint tasks, which block until the

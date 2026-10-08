@@ -14,7 +14,7 @@ from ezcapsolver import AsyncEzCapSolverClient, ReCaptchaV3EnterpriseS9Task
 
 
 async def main() -> None:
-    async with AsyncEzCapSolverClient() as client:
+    async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
         solved = await client.solve(
             ReCaptchaV3EnterpriseS9Task(
                 website_url="https://example.com",

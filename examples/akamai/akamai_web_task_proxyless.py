@@ -25,7 +25,7 @@ async def main() -> None:
     # The first round sends no encoded state.
     encode_data = ""
 
-    async with AsyncEzCapSolverClient() as client:
+    async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
         for index in range(MAX_ROUNDS):
             solved = await client.sync_solve(
                 AkamaiWebTask(

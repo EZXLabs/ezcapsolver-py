@@ -18,7 +18,7 @@ CHALLENGE_HTML_B64 = "base64_encoded_challenge_page"
 
 
 async def main() -> None:
-    async with AsyncEzCapSolverClient() as client:
+    async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
         # Step one: find out where the challenge lives.
         first = await client.sync_solve(
             DataDomeTask(

@@ -30,7 +30,7 @@ async def main() -> None:
     # indexes of the cells to click instead, so pass a matching ``size``.
     image = base64.b64encode((FIXTURES / "crosswalks1x1.jpg").read_bytes()).decode()
 
-    async with AsyncEzCapSolverClient() as client:
+    async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
         solved = await client.sync_solve(
             ReCaptchaV2ClassificationTask(
                 image=image,

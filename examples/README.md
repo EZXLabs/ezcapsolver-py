@@ -12,14 +12,13 @@ English · [简体中文](README.zh-CN.md)
 ## Running them
 
 ```bash
-export EZCAPTCHA_API_KEY=your-client-key
 export EZCAPTCHA_PROXY=http://user:pass@host:port   # only where noted
 
 python examples/recaptcha_v2/recaptcha_v2_task_proxyless.py
 ```
 
-Every example builds its client with no key argument, so it is read from
-`EZCAPTCHA_API_KEY`.
+Every example passes the placeholder key `YOUR_API_KEY`; replace it with your
+own key before running.
 
 A few run exactly as written — `recaptcha_v2_task_proxyless.py`, `hcaptcha.py`
 and both `*_client_task.py` files point at the vendors' own demo pages. The

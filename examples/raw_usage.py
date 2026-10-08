@@ -62,7 +62,7 @@ async def unknown_task_type(client: AsyncEzCapSolverClient) -> None:
 
 
 async def main() -> None:
-    async with AsyncEzCapSolverClient() as client:
+    async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
         await manual_polling(client)
         await unknown_task_type(client)
 

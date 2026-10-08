@@ -3,7 +3,7 @@
 Task type: ``ReCaptchaV2TaskProxyless``
 
 The site below is Google's own reCAPTCHA demo page, so this example runs as
-written once ``EZCAPTCHA_API_KEY`` is set.
+written once ``YOUR_API_KEY`` is replaced with your key.
 
 ``sync_solve_recaptcha_v2_task_proxyless`` runs the same task on the service's
 synchronous endpoint. It is a coroutine too — ``sync`` names the endpoint, not
@@ -18,8 +18,7 @@ from ezcapsolver import AsyncEzCapSolverClient
 
 
 async def main() -> None:
-    # With no key passed, the client reads EZCAPTCHA_API_KEY from the environment.
-    async with AsyncEzCapSolverClient() as client:
+    async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
         # Creates the task, then polls until the worker finishes it.
         solved = await client.solve_recaptcha_v2_task_proxyless(
             website_url="https://www.google.com/recaptcha/api2/demo",

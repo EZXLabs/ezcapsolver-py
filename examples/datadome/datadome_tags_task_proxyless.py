@@ -20,7 +20,7 @@ UA = (
 
 
 async def main() -> None:
-    async with AsyncEzCapSolverClient() as client:
+    async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
         solved = await client.sync_solve(
             DataDomeTagsTask(
                 # DataDome JavaScript key, read from the tags script tag.

@@ -60,7 +60,7 @@ class EzCapSolverClient(SolveShortcuts):
         """Construct the client.
 
         Args:
-            client_key: API credential. Read from ``EZCAPTCHA_API_KEY`` when
+            client_key: API credential. Read from ``EZCAPSOLVER_API_KEY`` when
                 omitted.
             config: A full configuration object; the remaining keyword
                 arguments override fields on top of it.

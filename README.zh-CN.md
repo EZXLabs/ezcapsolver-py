@@ -109,12 +109,12 @@ pip install ezcapsolver-py
 
 ## 🚀 快速开始
 
-未显式传入密钥时，客户端会自动从环境变量 `EZCAPTCHA_API_KEY` 读取。
+将 `YOUR_API_KEY` 替换为你的密钥。未显式传入密钥时，客户端会自动从环境变量 `EZCAPSOLVER_API_KEY` 读取。
 
 ```python
 from ezcapsolver import EzCapSolverClient
 
-with EzCapSolverClient() as client:
+with EzCapSolverClient("YOUR_API_KEY") as client:
     solved = client.solve_recaptcha_v2_task_proxyless(
         "https://example.com",
         "6Lc_your_site_key",
@@ -129,7 +129,7 @@ with EzCapSolverClient() as client:
 ```python
 from ezcapsolver import AsyncEzCapSolverClient
 
-async with AsyncEzCapSolverClient() as client:
+async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
     solved = await client.solve_recaptcha_v2_task_proxyless(
         "https://example.com",
         "6Lc_your_site_key",
@@ -722,7 +722,7 @@ if result.is_ready:
 from ezcapsolver import EzCapSolverClient, PollingConfig
 
 client = EzCapSolverClient(
-    "your-client-key",
+    "YOUR_API_KEY",
     timeout=30.0,
     sync_timeout=240.0,
     polling=PollingConfig(interval=3.0, max_attempts=50),
@@ -843,7 +843,7 @@ logging.getLogger("ezcapsolver").setLevel(logging.DEBUG)
 客户端构造后状态只读，底层 `httpx` 连接池本身可共享，因此**一个实例服务整个进程**即可。为每个任务新建客户端只会浪费连接。
 
 ```python
-async with AsyncEzCapSolverClient() as client:
+async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
     results = await asyncio.gather(
         *(client.solve_recaptcha_v2_task_proxyless(u, k) for u, k in sites),
         return_exceptions=True,
@@ -854,11 +854,9 @@ async with AsyncEzCapSolverClient() as client:
 
 ## 🧪 可运行示例
 
-[`examples/`](https://github.com/EZXLabs/ezcapsolver-py/tree/main/examples) 里每种任务类型一个可运行文件，文件名取自线格式的任务类型名；另有五个讲 SDK 本身。完整清单见[示例索引](https://github.com/EZXLabs/ezcapsolver-py/blob/main/examples/README.zh-CN.md)。
+[`examples/`](https://github.com/EZXLabs/ezcapsolver-py/tree/main/examples) 里每种任务类型一个可运行文件，文件名取自线格式的任务类型名；另有五个讲 SDK 本身。完整清单见[示例索引](https://github.com/EZXLabs/ezcapsolver-py/blob/main/examples/README.zh-CN.md)。先把示例中的占位符 `YOUR_API_KEY` 替换为你的密钥，然后：
 
 ```bash
-export EZCAPTCHA_API_KEY=your-client-key
-
 # 这两个用的是厂商自己的 demo 页面，可以直接跑通。
 python examples/recaptcha_v2/recaptcha_v2_task_proxyless.py
 python examples/hcaptcha/hcaptcha.py

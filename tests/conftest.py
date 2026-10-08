@@ -31,4 +31,4 @@ def fast_polling() -> PollingConfig:
 @pytest.fixture(autouse=True)
 def _no_ambient_key(monkeypatch: pytest.MonkeyPatch) -> None:
     """Clear the environment variable so a real key cannot leak into tests."""
-    monkeypatch.delenv("EZCAPTCHA_API_KEY", raising=False)
+    monkeypatch.delenv("EZCAPSOLVER_API_KEY", raising=False)

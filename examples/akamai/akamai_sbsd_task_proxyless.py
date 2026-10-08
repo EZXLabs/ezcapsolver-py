@@ -19,7 +19,7 @@ UA = (
 
 
 async def main() -> None:
-    async with AsyncEzCapSolverClient() as client:
+    async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
         # Every value below is collected from the protected page before
         # solving: `sbsd_url` comes from its <script src="/sbsd/...?v=..."> tag,
         # `script_base64` is that script base64-encoded, and `bm_so` is the

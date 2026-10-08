@@ -19,7 +19,7 @@ import os
 from ezcapsolver import AsyncEzCapSolverClient, ClientConfig, TlsForwardTask, TlsHttpMethod
 
 CONFIG = ClientConfig(
-    # Left unset, the key is read from EZCAPTCHA_API_KEY.
+    client_key="YOUR_API_KEY",
     timeout=30.0,
     sync_timeout=240.0,
 )

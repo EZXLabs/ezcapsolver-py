@@ -27,7 +27,7 @@ IMAGE = Path(__file__).parent.parent / "fixtures" / "crosswalks1x1.jpg"
 async def main() -> None:
     image = base64.b64encode(IMAGE.read_bytes()).decode()
 
-    async with AsyncEzCapSolverClient() as client:
+    async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
         solved = await client.sync_solve(
             FunCaptchaClassificationTask(
                 image=image,

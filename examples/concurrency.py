@@ -17,7 +17,7 @@ SITES = [
 
 
 async def main() -> None:
-    async with AsyncEzCapSolverClient() as client:
+    async with AsyncEzCapSolverClient("YOUR_API_KEY") as client:
         pending = [
             client.solve(ReCaptchaV2Task(website_url=url, website_key=key)) for url, key in SITES
         ]
