@@ -111,6 +111,8 @@ pip install ezcapsolver-py
 
 将 `YOUR_API_KEY` 替换为你的密钥。未显式传入密钥时，客户端会自动从环境变量 `EZCAPSOLVER_API_KEY` 读取。
 
+完整 API 接入流程请查看 [EZCaptchaSolver 快速入门](https://docs.ezxlabs.com/zh/docs/captcha/guide)。完整浏览器工作流请查看 [Selenium 验证码识别集成](https://ezxlabs.com/zh/integrations/selenium-captcha-solver)。
+
 ```python
 from ezcapsolver import EzCapSolverClient
 
@@ -191,6 +193,8 @@ ReCaptchaV2ClassificationTask.mode is TaskMode.SYNC  # True
 ### reCAPTCHA v2
 
 [reCAPTCHA v2 API 文档](https://docs.ezxlabs.com/zh/docs/captcha/api/recaptcha-v2)
+
+选择任务类型或查找 `websiteURL`、`websiteKey`、`pageAction` 时，请查看 [ReCaptcha 任务类型选择](https://docs.ezxlabs.com/zh/docs/captcha/tutorials/identify-recaptcha-version) 和 [ReCaptcha 任务参数查找](https://docs.ezxlabs.com/zh/docs/captcha/tutorials/find-recaptcha-parameters)。
 
 前五个类型共用 `ReCaptchaV2Task` 与 `ReCaptchaSolution`，只有方法名不同。
 
@@ -381,6 +385,8 @@ print("token =", solved.solution.token)
 
 <a id="task-funcaptchaclassification"></a>
 
+[FunCaptcha 图片识别 API 文档](https://docs.ezxlabs.com/zh/docs/captcha/api/funcaptcha-classification)
+
 #### FunCaptchaClassification
 
 ```python
@@ -522,6 +528,8 @@ print("payload =", solution.payload)
 ```
 
 ### DataDome
+
+[DataDome API 文档](https://docs.ezxlabs.com/zh/docs/captcha/api/datadome)
 
 <a id="task-datadometaskproxyless"></a>
 

@@ -37,6 +37,8 @@ dependencies = ["httpx>=0.27"]
 
 [project.urls]
 Homepage = "https://ezxlabs.com"
+Documentation = "https://docs.ezxlabs.com/docs/captcha/guide"
+"SDK Product" = "https://ezxlabs.com/products/sdk"
 Repository = "https://github.com/EZXLabs/ezcapsolver-py"
 Issues = "https://github.com/EZXLabs/ezcapsolver-py/issues"
 Changelog = "https://github.com/EZXLabs/ezcapsolver-py/releases"

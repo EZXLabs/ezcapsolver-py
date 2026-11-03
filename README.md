@@ -111,6 +111,8 @@ Requires Python 3.12+. The only runtime dependency is [`httpx`](https://www.pyth
 
 Replace `YOUR_API_KEY` with your client key. When no key is passed explicitly, the client reads `EZCAPSOLVER_API_KEY` from the environment.
 
+For the complete API flow, see the [CAPTCHA quick start](https://docs.ezxlabs.com/docs/captcha/guide). For a full browser workflow, see the [Selenium CAPTCHA integration](https://ezxlabs.com/integrations/selenium-captcha-solver).
+
 ```python
 from ezcapsolver import EzCapSolverClient
 
@@ -192,6 +194,8 @@ only a non-empty malformed value that is rejected.
 ### reCAPTCHA v2
 
 [reCAPTCHA v2 API reference](https://docs.ezxlabs.com/docs/captcha/api/recaptcha-v2)
+
+For help choosing a task type and finding `websiteURL`, `websiteKey` or `pageAction`, see [Select the correct ReCaptcha task type](https://docs.ezxlabs.com/docs/captcha/tutorials/identify-recaptcha-version) and [Find ReCaptcha task parameters](https://docs.ezxlabs.com/docs/captcha/tutorials/find-recaptcha-parameters).
 
 The first five types share `ReCaptchaV2Task` and `ReCaptchaSolution`; only the method name differs.
 
@@ -382,6 +386,8 @@ print("token =", solved.solution.token)
 
 <a id="task-funcaptchaclassification"></a>
 
+[FunCaptcha image classification API reference](https://docs.ezxlabs.com/docs/captcha/api/funcaptcha-classification)
+
 #### FunCaptchaClassification
 
 ```python
@@ -523,6 +529,8 @@ print("payload =", solution.payload)
 ```
 
 ### DataDome
+
+[DataDome API reference](https://docs.ezxlabs.com/docs/captcha/api/datadome)
 
 <a id="task-datadometaskproxyless"></a>
 
