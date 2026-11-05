@@ -21,7 +21,7 @@
 
 ---
 
-The EZCaptchaSolver Python SDK is an open-source Python client maintained by [EZXLabs](https://ezxlabs.com) for its CAPTCHA recognition task API. It provides typed requests and async and blocking clients for the supported task types below; the package also includes a TLS forwarding task that does not solve CAPTCHAs. For the wider SDK family, see the [EZCaptchaSolver SDK product page](https://ezxlabs.com/products/sdk); for HTTP request and response fields, see the [EZCaptchaSolver API reference](https://docs.ezxlabs.com/docs/captcha/api); for Python usage, see the [examples in this repository](https://github.com/EZXLabs/ezcapsolver-py/blob/main/examples/README.md).
+The EZCaptchaSolver Python SDK is an open-source Python client maintained by [EZXLabs](https://ezxlabs.com) for its [CAPTCHA recognition task API](https://ezxlabs.com/products/captcha). It provides typed requests and async and blocking clients for the supported task types below; the package also includes a TLS forwarding task that does not solve CAPTCHAs. For the wider SDK family, see the [EZCaptchaSolver SDK product page](https://ezxlabs.com/products/sdk); for HTTP request and response fields, see the [EZCaptchaSolver API reference](https://docs.ezxlabs.com/docs/captcha/api); for Python usage, see the [examples in this repository](https://github.com/EZXLabs/ezcapsolver-py/blob/main/examples/README.md).
 
 ## 🧩 Supported Captcha Types
 
