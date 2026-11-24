@@ -1036,19 +1036,23 @@ class AsyncSolveShortcuts(BaseClient):
 
     async def solve_data_dome_task_proxyless(
         self,
-        html_b64: str,
+        html_b64: str | None = None,
         *,
         step: DataDomeStep = DataDomeStep.ONE,
         image: str = "",
         referer: str | None = None,
         parent_url: str | None = None,
         equipment: str | None = None,
+        hash: str | None = None,  # noqa: A002
+        user_agent: str | None = None,
+        external_js_hash: str | None = None,
+        external_js_base64: str | None = None,
         **extra: Any,
     ) -> Solved[DataDomeSolution]:
         """Solve ``DataDomeTaskProxyless``.
 
         See :class:`DataDomeTask`. Step one returns the challenge URL, step two
-        the validation instructions.
+        whether the challenge script is cached, step three the submission.
         """
         return await self.solve(
             DataDomeTask(
@@ -1058,25 +1062,33 @@ class AsyncSolveShortcuts(BaseClient):
                 referer=referer,
                 parent_url=parent_url,
                 equipment=equipment,
+                hash=hash,
+                user_agent=user_agent,
+                external_js_hash=external_js_hash,
+                external_js_base64=external_js_base64,
                 extra=extra,
             )
         )
 
     async def sync_solve_data_dome_task_proxyless(
         self,
-        html_b64: str,
+        html_b64: str | None = None,
         *,
         step: DataDomeStep = DataDomeStep.ONE,
         image: str = "",
         referer: str | None = None,
         parent_url: str | None = None,
         equipment: str | None = None,
+        hash: str | None = None,  # noqa: A002
+        user_agent: str | None = None,
+        external_js_hash: str | None = None,
+        external_js_base64: str | None = None,
         **extra: Any,
     ) -> Solved[DataDomeSolution]:
         """Solve ``DataDomeTaskProxyless`` on the synchronous endpoint.
 
         See :class:`DataDomeTask`. Step one returns the challenge URL, step two
-        the validation instructions.
+        whether the challenge script is cached, step three the submission.
         """
         return await self.sync_solve(
             DataDomeTask(
@@ -1086,6 +1098,10 @@ class AsyncSolveShortcuts(BaseClient):
                 referer=referer,
                 parent_url=parent_url,
                 equipment=equipment,
+                hash=hash,
+                user_agent=user_agent,
+                external_js_hash=external_js_hash,
+                external_js_base64=external_js_base64,
                 extra=extra,
             )
         )

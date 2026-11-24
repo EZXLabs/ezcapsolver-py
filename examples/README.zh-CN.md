@@ -73,7 +73,7 @@ python examples/recaptcha_v2/recaptcha_v2_task_proxyless.py
 
 | 示例 | 任务类型 | |
 | --- | --- | --- |
-| [`datadome_task_proxyless.py`](datadome/datadome_task_proxyless.py) | `DataDomeTaskProxyless` | 两步挑战 |
+| [`datadome_task_proxyless.py`](datadome/datadome_task_proxyless.py) | `DataDomeTaskProxyless` | 三步挑战 |
 | [`datadome_tags_task_proxyless.py`](datadome/datadome_tags_task_proxyless.py) | `DataDomeTagsTaskProxyless` | |
 
 ## 其他防护系统
