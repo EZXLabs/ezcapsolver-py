@@ -77,7 +77,7 @@ scraped from the site you are working against.
 
 | Example | Task type | |
 | --- | --- | --- |
-| [`datadome_task_proxyless.py`](datadome/datadome_task_proxyless.py) | `DataDomeTaskProxyless` | two-step challenge |
+| [`datadome_task_proxyless.py`](datadome/datadome_task_proxyless.py) | `DataDomeTaskProxyless` | three-step challenge |
 | [`datadome_tags_task_proxyless.py`](datadome/datadome_tags_task_proxyless.py) | `DataDomeTagsTaskProxyless` | |
 
 ## Other protection systems

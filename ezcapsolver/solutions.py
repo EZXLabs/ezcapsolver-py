@@ -226,23 +226,30 @@ class TlsForwardSolution(Model):
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class DataDomeSolution(Model):
-    """DataDome solution, shared by both challenge steps.
+    """DataDome solution, shared by every challenge step.
 
-    Step one carries the challenge address in ``url``; step two carries the
-    validation instructions. Earlier workers returned step one as a bare
-    string — it is an object now, so both steps decode into this one type.
+    Step one carries the challenge address in ``url``; step two only ``status``;
+    step three the submission in ``url``, ``body``, ``kind`` and
+    ``submit_after_ms``. Earlier workers returned step one as a bare string — it
+    is an object now, so every step decodes into this one type.
     ``DataDomeTask`` and ``DataDomeTagsTask`` share it as well.
 
     Attributes:
         kind: Challenge kind, such as ``slider`` or ``interstitial``.
-        url: Challenge URL on step one, validation endpoint on step two.
-        body: Optional validation request body.
+        url: Challenge URL on step one, submission URL on step three.
+        body: Optional submission body on step three.
+        status: Step two: whether the service already caches the challenge
+            script.
+        submit_after_ms: Step three: milliseconds to wait, from when the
+            challenge page loaded, before submitting.
         extra: Worker fields this release does not model.
     """
 
     kind: str | None = wire(default=None)
     url: str | None = wire(default=None)
     body: str | None = wire(default=None)
+    status: bool | None = wire(default=None)
+    submit_after_ms: int | None = wire("submit_after_ms", default=None)
     extra: dict[str, Any] = extra()
 
 

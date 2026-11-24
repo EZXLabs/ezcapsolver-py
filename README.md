@@ -86,7 +86,7 @@ A captcha type can support both forms at once, and almost every type supports th
 
 | Task type | Modes | Example | Description |
 | :-: | :---: | :-: | --- |
-| `DataDomeTaskProxyless` | sync | [Example](#task-datadometaskproxyless) | The challenge after an interception, in two steps selected by `step` |
+| `DataDomeTaskProxyless` | sync | [Example](#task-datadometaskproxyless) | The challenge after an interception, in three steps selected by `step` |
 | `DataDomeTagsTaskProxyless` | sync | [Example](#task-datadometagstaskproxyless) | Reports a fingerprint on the normal browsing path |
 
 ### Other protection and forwarding tasks
@@ -536,7 +536,7 @@ print("payload =", solution.payload)
 
 #### DataDomeTaskProxyless
 
-The challenge after a DataDome interception runs in two steps that share one method and are selected by `step`; which fields of `DataDomeSolution` carry a value depends on the step:
+The challenge after a DataDome interception runs in three steps that share one method and are selected by `step`. Step one turns the intercepted page into the challenge address, step two asks whether the service already caches the challenge script by its `hash`, and step three returns the submission in `url`, `body` and `submit_after_ms`:
 
 ```python
 from ezcapsolver import DataDomeStep
@@ -549,7 +549,8 @@ solution = client.sync_solve_data_dome_task_proxyless(
 
 print("challenge address =", solution.url)
 
-# Step two uses DataDomeStep.TWO, and the result carries the validation body.
+# Step two sends the script hash and reads `status`; step three sends the
+# challenge page with the script, or only its hash when it is cached.
 ```
 
 <a id="task-datadometagstaskproxyless"></a>

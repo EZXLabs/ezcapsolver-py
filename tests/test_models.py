@@ -135,6 +135,29 @@ class TestTaskWireMapping:
     def test_snake_case_survives_when_the_api_uses_it(self):
         assert "tls_type" in TlsForwardTask(tls_type="chrome", proxy="p", url="u").to_dict()
 
+    def test_datadome_steps_and_script_fields_use_snake_case(self):
+        assert [step.value for step in DataDomeStep] == ["1", "2", "3"]
+        wire = DataDomeTask(
+            step=DataDomeStep.THREE,
+            html_b64="PGh0bWw+",
+            user_agent="Mozilla/5.0",
+            external_js_hash="js-hash",
+            external_js_base64="anM=",
+        ).to_dict()
+        assert wire == {
+            "step": "3",
+            "html_b64": "PGh0bWw+",
+            "image": "",
+            "user_agent": "Mozilla/5.0",
+            "external_js_hash": "js-hash",
+            "external_js_base64": "anM=",
+        }
+
+    def test_datadome_step_two_sends_only_the_hash(self):
+        # Step two carries no page, so an unset html_b64 must stay off the wire.
+        wire = DataDomeTask(step=DataDomeStep.TWO, hash="js-hash").to_dict()
+        assert wire == {"step": "2", "image": "", "hash": "js-hash"}
+
     def test_the_first_akamai_round_needs_no_cookies_or_script(self):
         # Round 0 runs before the site has issued _abck or bm_sz, and the contract
         # marks all three optional with an empty-string default. Requiring them
@@ -221,11 +244,19 @@ class TestSolutionDecoding:
         assert AkamaiWebSolution.from_dict({"payload": "p"}).encodedata == ""
         assert HCaptchaSolution.from_dict({"generated_pass_UUID": "u"}).ua is None
 
-    def test_datadome_uses_one_model_for_both_steps(self):
+    def test_datadome_uses_one_model_for_every_step(self):
         step1 = DataDomeSolution.from_dict({"url": "https://challenge"})
-        step2 = DataDomeSolution.from_dict({"kind": "slider", "url": "https://check", "body": "b"})
+        step2 = DataDomeSolution.from_dict({"status": True})
+        step3 = DataDomeSolution.from_dict(
+            {"kind": "slider", "url": "https://check", "body": "b", "submit_after_ms": 1500}
+        )
         assert step1.url == "https://challenge"
-        assert step2.kind == "slider"
+        assert step1.status is None
+        assert step2.status is True
+        assert step3.kind == "slider"
+        assert step3.submit_after_ms == 1500
+        # Declared fields decode into attributes, not into extra.
+        assert step3.extra == {}
 
     def test_a_missing_required_field_raises_with_the_raw_value(self):
         with pytest.raises(SolutionDecodeError) as excinfo:

@@ -507,10 +507,12 @@ class CloudflareTurnstileTask(Task[CloudflareTurnstileSolution]):
 class DataDomeStep(StrEnum):
     """DataDome challenge step."""
 
-    #: Step one: fetch the challenge URL.
+    #: Step one: find the challenge address of an intercepted page.
     ONE = "1"
-    #: Step two: produce the validation instructions.
+    #: Step two: ask whether the service already caches a challenge script, by ``hash``.
     TWO = "2"
+    #: Step three: compute the answer to submit from the challenge page and its script.
+    THREE = "3"
 
 
 class DataDomeJsType(StrEnum):
@@ -526,17 +528,25 @@ class DataDomeJsType(StrEnum):
 class DataDomeTask(Task[DataDomeSolution]):
     """DataDome challenge, proxyless.
 
-    Both steps return a :class:`~ezcapsolver.solutions.DataDomeSolution`: step one
-    carries the challenge address in ``url``, step two the validation
-    instructions.
+    Every step returns a :class:`~ezcapsolver.solutions.DataDomeSolution`: step one
+    carries the challenge address in ``url``, step two only ``status``, and step
+    three the submission in ``url``, ``body``, ``kind`` and ``submit_after_ms``.
 
     Attributes:
-        html_b64: Base64-encoded challenge HTML.
+        html_b64: Base64-encoded page: the intercepted page on step one, the
+            challenge page on step three. Step two leaves it unset.
         step: Step of the challenge workflow.
         image: Optional base64-encoded image.
         referer: Optional page or challenge URL.
         parent_url: Optional parent page URL.
         equipment: Optional equipment identifier.
+        hash: Step two: hash of the challenge script to look up in the service
+            cache.
+        user_agent: Optional browser user agent the challenge is solved for.
+        external_js_hash: Step three: hash of the challenge script, when step two
+            reported it cached.
+        external_js_base64: Step three: the base64-encoded challenge script, when
+            step two reported it not cached.
         extra: Additional worker parameters.
     """
 
@@ -544,12 +554,16 @@ class DataDomeTask(Task[DataDomeSolution]):
     solution_type: ClassVar[type[Model] | None] = DataDomeSolution
     mode: ClassVar[TaskMode] = TaskMode.SYNC
 
-    html_b64: str = wire("html_b64")
+    html_b64: str | None = wire("html_b64", default=None)
     step: DataDomeStep = wire(default=DataDomeStep.ONE)
     image: str = wire(default="")
     referer: str | None = wire(default=None)
     parent_url: str | None = wire("parent_url", default=None)
     equipment: str | None = wire(default=None)
+    hash: str | None = wire(default=None)
+    user_agent: str | None = wire("user_agent", default=None)
+    external_js_hash: str | None = wire("external_js_hash", default=None)
+    external_js_base64: str | None = wire("external_js_base64", default=None)
     extra: dict[str, Any] = extra()
 
 
