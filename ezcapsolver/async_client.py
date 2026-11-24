@@ -14,13 +14,14 @@ from . import _http
 from ._async_shortcuts import AsyncSolveShortcuts
 from .config import ClientConfig, PollingConfig
 from .errors import ApiError, EzCaptchaError, PollingExhaustedError, TransportError, _config_error
+from .ext._async_workflows import AsyncWorkflows
 from .responses import Solved, TaskResult
 from .tasks import Task
 
 __all__ = ["AsyncEzCapSolverClient"]
 
 
-class AsyncEzCapSolverClient(AsyncSolveShortcuts):
+class AsyncEzCapSolverClient(AsyncWorkflows, AsyncSolveShortcuts):
     """Asynchronous EzCaptchaSolver client.
 
     Shares models, error types and configuration with

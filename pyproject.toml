@@ -43,8 +43,14 @@ Repository = "https://github.com/EZXLabs/ezcapsolver-py"
 Issues = "https://github.com/EZXLabs/ezcapsolver-py/issues"
 Changelog = "https://github.com/EZXLabs/ezcapsolver-py/releases"
 
+[project.optional-dependencies]
+datadome = [
+    "lkrequest>=0.3",
+]
+
 [dependency-groups]
 dev = [
+    "lkrequest>=0.3",
     "mypy>=1.11",
     "pytest>=8.0",
     "pytest-asyncio>=0.24",
@@ -101,6 +107,11 @@ python_version = "3.12"
 strict = true
 warn_unreachable = true
 enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
+
+# lkrequest ships a typed stub but no py.typed marker; read the stub anyway.
+[[tool.mypy.overrides]]
+module = ["lkrequest", "lkrequest.*"]
+follow_untyped_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
